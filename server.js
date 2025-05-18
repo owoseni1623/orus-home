@@ -6,7 +6,7 @@ const path = require('path');
 const errorHandler = require('./middleware/error');
 const morgan = require('morgan');
 const helmet = require('helmet');
-const xss = require('xss-clean');
+const xssFilters = require('xss-filters');
 const rateLimit = require('express-rate-limit');
 const hpp = require('hpp');
 const fs = require('fs').promises;
@@ -81,7 +81,27 @@ app.use(helmet({
     },
   },
 }));
-app.use(xss());
+app.use((req, res, next) => {
+  if (req.body) {
+    // Function to recursively sanitize object values
+    const sanitizeObject = (obj) => {
+      Object.keys(obj).forEach(key => {
+        if (typeof obj[key] === 'string') {
+          // Apply XSS filtering to string values
+          obj[key] = xssFilters.inHTMLData(obj[key]);
+        } else if (typeof obj[key] === 'object' && obj[key] !== null) {
+          sanitizeObject(obj[key]);
+        }
+      });
+      return obj;
+    };
+    
+    // Sanitize the request body
+    req.body = sanitizeObject(req.body);
+  }
+  next();
+});
+
 app.use(mongoSanitize());
 app.use(hpp());
 
