@@ -1,0 +1,278 @@
+:root {
+    --primary-color: #1A5F7A;
+    --secondary-color: #159895;
+    --accent-color: #57C5B6;
+    --background-light: #F8FAFA;
+    --text-dark: #2C3333;
+    --border-subtle: #E1E8ED;
+  }
+  
+  .checkout-page * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .checkout-page {
+    font-family: 'system-ui', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background: linear-gradient(135deg, var(--background-light) 0%, #E9F3F5 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    margin: 3rem auto;
+    justify-content: center;
+    padding: 2rem;
+    perspective: 1000px;
+  }
+  
+  .checkout-container {
+    width: 100%;
+    max-width: 900px;
+    background: white;
+    border-radius: 24px;
+    box-shadow: 
+      0 25px 50px -12px rgba(0, 0, 0, 0.08),
+      0 10px 20px -5px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    transform: translateZ(0);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+  
+  .checkout-container:hover {
+    transform: scale(1.02) rotateX(2deg) rotateY(-2deg);
+    box-shadow: 
+      0 35px 60px -15px rgba(0, 0, 0, 0.1),
+      0 15px 25px -8px rgba(0, 0, 0, 0.08);
+  }
+  
+  /* Header Styling */
+  .checkout-container h1 {
+    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    padding: 1.5rem 2.5rem;
+    text-align: center;
+    font-size: 2.2rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+  }
+  
+  /* Property Summary */
+  .property-summary {
+    background: linear-gradient(110deg, #F3F4F6 0%, #E5E7EB 100%);
+    padding: 1.5rem 2.5rem;
+    border-bottom: 4px solid var(--accent-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .property-summary h2 {
+    color: var(--text-dark);
+    font-size: 1.6rem;
+    font-weight: 600;
+  }
+  
+  .property-summary p {
+    color: #4B5563;
+    font-weight: 500;
+  }
+  
+  /* Form Styling */
+  .checkout-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    padding: 2.5rem;
+  }
+  
+  .customer-info-section,
+  .additional-services-section {
+    background: white;
+    border: 1px solid var(--border-subtle);
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  }
+  
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 0.75rem;
+    color: var(--text-dark);
+    font-weight: 600;
+    position: relative;
+  }
+  
+  .form-group input,
+  .form-group textarea {
+    width: 100%;
+    padding: 1rem 1.25rem;
+    border: 2px solid var(--border-subtle);
+    border-radius: 12px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+  }
+  
+  .form-group input:focus,
+  .form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(26, 95, 122, 0.1);
+  }
+  
+  /* Service Checkboxes */
+  .service-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  
+  .service-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    cursor: pointer;
+    padding: 1rem;
+    border: 2px solid var(--border-subtle);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+  }
+  
+  .service-checkbox:hover {
+    border-color: var(--primary-color);
+    background-color: #F9FAFB;
+  }
+  
+  .service-checkbox input[type="checkbox"] {
+    appearance: none;
+    width: 24px;
+    height: 24px;
+    border: 2px solid #A0AEC0;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s;
+  }
+  
+  .service-checkbox input[type="checkbox"]:checked {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+  }
+  
+  .service-checkbox input[type="checkbox"]:checked::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-weight: bold;
+  }
+  
+  /* Cost Summary */
+  .cost-summary {
+    grid-column: span 2;
+    background: linear-gradient(110deg, #F9FAFB 0%, #F3F4F6 100%);
+    border-radius: 16px;
+    padding: 2rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    align-items: start;
+  }
+  
+  .cost-summary h3 {
+    grid-column: span 2;
+    color: var(--text-dark);
+    margin-bottom: 1rem;
+    font-size: 1.4rem;
+  }
+  
+  .cost-summary h2 {
+    grid-column: span 2;
+    text-align: right;
+    color: var(--primary-color);
+    font-size: 2rem;
+    border-top: 2px solid var(--border-subtle);
+    padding-top: 1rem;
+  }
+  
+  /* Action Buttons */
+  .checkout-actions {
+    display: flex;
+    justify-content: space-between;
+    padding: 2rem;
+    background: #F9FAFB;
+    border-top: 1px solid var(--border-subtle);
+  }
+  
+  .back-button,
+  .proceed-to-payment {
+    padding: 1rem 2rem;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+  
+  .back-button {
+    background-color: transparent;
+    color: var(--text-dark);
+    border: 2px solid var(--border-subtle);
+  }
+  
+  .proceed-to-payment {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    border: none;
+    box-shadow: 0 10px 20px -5px rgba(26, 95, 122, 0.3);
+  }
+  
+  .back-button:hover {
+    background-color: #F3F4F6;
+  }
+  
+  .proceed-to-payment:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 25px -8px rgba(26, 95, 122, 0.4);
+  }
+  
+  /* Responsive Design */
+  @media screen and (max-width: 768px) {
+    .checkout-form {
+      grid-template-columns: 1fr;
+    }
+  
+    .cost-summary {
+      grid-template-columns: 1fr;
+    }
+  
+    .service-options {
+      grid-template-columns: 1fr;
+    }
+  
+    .checkout-actions {
+      flex-direction: column;
+      gap: 1rem;
+    }
+  
+    .back-button,
+    .proceed-to-payment {
+      width: 100%;
+    }
+  }
+  
+  /* Subtle Animations */
+  @keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
