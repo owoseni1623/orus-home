@@ -77,7 +77,7 @@ app.use(helmet({
   contentSecurityPolicy: {
     directives: {
       ...helmet.contentSecurityPolicy.getDefaultDirectives(),
-      "img-src": ["'self'", "data:", "blob:", process.env.CLIENT_URL || 'http://localhost:5173'],
+      "img-src": ["'self'", "data:", "blob:", process.env.CLIENT_URL || 'https://orus-gamma.vercel.app/'],
     },
   },
 }));
@@ -107,7 +107,7 @@ app.use(hpp());
 
 // CORS Configuration
 const corsOptions = {
-  origin: [process.env.CLIENT_URL || 'http://localhost:5173', 'http://127.0.0.1:5173'],
+  origin: [process.env.CLIENT_URL || 'http://localhost:5173', 'http://127.0.0.1:5173','https://orus-gamma.vercel.app/'],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
