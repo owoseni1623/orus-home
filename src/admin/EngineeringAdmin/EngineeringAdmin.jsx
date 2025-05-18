@@ -174,6 +174,15 @@ const EngineeringAdmin = () => {
     e.stopPropagation();
   };
 
+  // Safe date formatting to prevent errors with invalid dates
+  const formatDate = (dateString) => {
+    try {
+      return format(new Date(dateString), 'PPP');
+    } catch (error) {
+      return 'Invalid date';
+    }
+  };
+
   if (loading) return <div className="engineering-admin-loading">Loading...</div>;
   if (error) return <div className="engineering-admin-error">Error: {error}</div>;
 
@@ -197,7 +206,7 @@ const EngineeringAdmin = () => {
                   {consultation.status}
                 </span>
                 <span className="eng006-consultation-date">
-                  {format(new Date(consultation.createdAt), 'PPP')}
+                  {formatDate(consultation.createdAt)}
                 </span>
               </div>
 
@@ -399,7 +408,7 @@ const EngineeringAdmin = () => {
                       <h3>Replies</h3>
                       {selectedConsultation.replies.map((reply, index) => (
                         <div key={index} className="eng006-reply-item">
-                          <p className="eng006-reply-date">{format(new Date(reply.createdAt), 'PPP')}</p>
+                          <p className="eng006-reply-date">{formatDate(reply.createdAt)}</p>
                           <p className="eng006-reply-message">{reply.message}</p>
                           {reply.attachments && reply.attachments.length > 0 && (
                             <div className="eng006-reply-attachments">
