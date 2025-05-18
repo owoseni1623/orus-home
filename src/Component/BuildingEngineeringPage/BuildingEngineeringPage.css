@@ -1,0 +1,361 @@
+:root {
+    --primary-color: #0a2342;
+    --secondary-color: #127383;
+    --accent-color: #19a7ce;
+    --background-color: #f0f4f8;
+    --text-primary: #2c3e50;
+    --text-secondary: #34495e;
+    --white: #ffffff;
+  }
+  
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+    color: var(--text-primary);
+    background-color: var(--background-color);
+  }
+  
+  .building-engineering-page {
+    max-width: 1400px;
+    margin: 3rem auto;
+    overflow-x: hidden;
+  }
+  
+  .engineering-header {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: var(--white);
+    text-align: center;
+    padding: 4rem 1rem;
+    position: relative;
+    clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+  }
+  
+  .header-content h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+  }
+  
+  .engineering-services-section,
+  .case-studies-section,
+  .expert-team-section,
+  .engineering-consultation-section {
+    padding: 4rem 1rem;
+    background-color: var(--background-color);
+  }
+  
+  .engineering-services-section h2,
+  .case-studies-section h2,
+  .expert-team-section h2,
+  .engineering-consultation-section h2 {
+    text-align: center;
+    margin-bottom: 3rem;
+    color: var(--primary-color);
+    position: relative;
+  }
+  
+  .engineering-services-section h2::after,
+  .case-studies-section h2::after,
+  .expert-team-section h2::after,
+  .engineering-consultation-section h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 4px;
+    background-color: var(--accent-color);
+  }
+  
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 1s ease;
+  }
+  
+  .services-animated {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .service-card {
+    background-color: var(--white);
+    border-radius: 15px;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .service-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(to right, transparent, var(--accent-color));
+    transition: all 0.3s ease;
+  }
+  
+  .service-card:hover::before {
+    left: 0;
+  }
+  
+  .service-icon {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+  }
+  
+  .service-active {
+    background-color: var(--primary-color);
+    color: var(--white);
+  }
+  
+  .service-details {
+    margin-top: 1rem;
+    text-align: left;
+  }
+  
+  .service-technologies {
+    margin-top: 1rem;
+  }
+  
+  .tech-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+  }
+  
+  .tech-tag {
+    background-color: rgba(255,255,255,0.2);
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+  }
+  
+  .case-studies-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+  
+  .case-study-card {
+    background-color: var(--white);
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+  }
+  
+  .case-study-card:hover {
+    transform: scale(1.05);
+  }
+  
+  .case-study-image img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+  }
+  
+  .case-study-details {
+    padding: 1.5rem;
+  }
+  
+  .case-study-impact {
+    color: var(--accent-color);
+    font-weight: bold;
+    margin-top: 1rem;
+  }
+  
+  .expert-team-grid { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+    gap: 2rem; 
+  }
+  
+  .expert-card { 
+    background-color: var(--white); 
+    border-radius: 15px; 
+    overflow: hidden; 
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1); 
+    transition: transform 0.3s ease; 
+    text-align: center; 
+  }
+  
+  .expert-card:hover { 
+    transform: scale(1.05); 
+  }
+  
+  .expert-image img { 
+    width: 100%; 
+    height: 350px; 
+    object-fit: cover; 
+  }
+  
+  .expert-details { 
+    padding: 1.5rem; 
+  }
+  
+  .expert-details h3 { 
+    color: var(--primary-color); 
+    margin-bottom: 0.5rem; 
+  }
+  
+  .expert-role { 
+    color: var(--secondary-color); 
+    font-weight: 500; 
+    margin-bottom: 0.5rem; 
+  }
+  
+  .expert-expertise, .expert-qualifications { 
+    color: var(--text-secondary); 
+    font-size: 0.9rem; 
+  }
+  
+  .engineering-consultation-section { 
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); 
+    color: var(--white); 
+  }
+  
+  .consultation-container { 
+    display: grid; 
+    grid-template-columns: 1fr 1fr; 
+    gap: 2rem; 
+    align-items: center; 
+    max-width: 1200px; 
+    margin: 0 auto; 
+  }
+  
+  .consultation-info { 
+    text-align: left; 
+  }
+  
+  .consultation-info h2 { 
+    color: var(--white); 
+    margin-bottom: 1rem; 
+  }
+  
+  .consultation-form { 
+    display: flex; 
+    flex-direction: column; 
+    gap: 1rem; 
+    background-color: rgba(255,255,255,0.1); 
+    padding: 2rem; 
+    border-radius: 15px; 
+  }
+  
+  .consultation-form input, 
+  .consultation-form select, 
+  .consultation-form textarea { 
+    width: 100%; 
+    padding: 0.75rem; 
+    border: none; 
+    border-radius: 8px; 
+    background-color: rgba(255,255,255,0.2); 
+    color: var(--white); 
+    font-family: 'Inter', sans-serif; 
+  }
+  
+  .consultation-form input::placeholder, 
+  .consultation-form textarea::placeholder { 
+    color: rgba(255,255,255,0.7); 
+  }
+  
+  .submit-consultation { 
+    background-color: var(--accent-color); 
+    color: var(--white); 
+    border: none; 
+    padding: 1rem; 
+    border-radius: 8px; 
+    font-weight: bold; 
+    cursor: pointer; 
+    transition: background-color 0.3s ease; 
+  }
+  
+  .submit-consultation:hover { 
+    background-color: var(--white); 
+    color: var(--primary-color); 
+  }
+
+  .requirement-selectors {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .requirement-selectors select {
+    width: 100%;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 8px;
+    background-color: rgba(255,255,255,0.2);
+    color: var(--white);
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1em;
+  }
+  
+  .requirement-selectors select:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  
+  .requirement-selectors select option {
+    background-color: var(--primary-color);
+    color: var(--white);
+    padding: 0.75rem;
+  }
+  
+  .requirement-selectors select:focus {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 2px;
+  }
+  
+  @media screen and (max-width: 1024px) { 
+    .consultation-container { 
+      grid-template-columns: 1fr; 
+    }
+  
+    .services-grid, 
+    .case-studies-grid, 
+    .expert-team-grid { 
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+    }
+  }
+  
+  @media screen and (max-width: 768px) {
+    
+    .requirement-selectors {
+      gap: 0.75rem;
+    }
+    
+    .engineering-header h1 { 
+      font-size: 2.5rem; 
+    }
+  
+    .services-grid, 
+    .case-studies-grid, 
+    .expert-team-grid { 
+      grid-template-columns: 1fr; 
+    }
+  }

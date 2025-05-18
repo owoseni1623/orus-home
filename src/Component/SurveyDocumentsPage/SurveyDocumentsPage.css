@@ -1,0 +1,177 @@
+:root {
+    --primary-color: #2c3e50;
+    --secondary-color: #3498db;
+    --accent-color: #2ecc71;
+    --text-color: #333;
+    --background-color: #f4f6f7;
+    --white: #ffffff;
+  }
+  
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--background-color);
+  }
+  
+  .survey-documents-page {
+    max-width: 1400px;
+    margin: 4rem auto;
+    padding: 0 15px;
+  }
+  
+  .survey-header {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    text-align: center;
+    padding: 4rem 1rem;
+    margin-bottom: 3rem;
+    border-radius: 0 0 20px 20px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  }
+  
+  .survey-header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .survey-process-section h2,
+  .testimonials-section h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: var(--primary-color);
+    position: relative;
+  }
+  
+  .survey-process-section h2::after,
+  .testimonials-section h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 4px;
+    background-color: var(--secondary-color);
+  }
+  
+  .survey-process-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .survey-process-step {
+    background-color: var(--white);
+    border-radius: 15px;
+    padding: 1.5rem;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .survey-process-step:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 15px rgba(0,0,0,0.15);
+  }
+  
+  .survey-process-step.active {
+    background-color: var(--secondary-color);
+    color: var(--white);
+  }
+  
+  .step-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+  
+  .step-details {
+    margin-top: 1rem;
+    text-align: left;
+    list-style-type: disc;
+    padding-left: 1.5rem;
+  }
+  
+  .survey-request-section {
+    background-color: var(--white);
+    margin: 3rem 0;
+    border-radius: 20px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  }
+  
+  .survey-request-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    padding: 3rem;
+  }
+  
+  .survey-request-form {
+    display: grid;
+    gap: 1rem;
+  }
+  
+  .survey-request-form input,
+  .survey-request-form textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--secondary-color);
+    border-radius: 8px;
+  }
+  
+  .submit-survey-request {
+    background-color: var(--accent-color);
+    color: var(--white);
+    border: none;
+    padding: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .submit-survey-request:hover {
+    background-color: var(--secondary-color);
+  }
+  
+  .testimonials-section {
+    padding: 3rem 0;
+  }
+  
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .testimonial-card {
+    background-color: var(--white);
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  }
+  
+  .testimonial-quote {
+    font-style: italic;
+    margin-bottom: 1rem;
+  }
+  
+  .testimonial-author {
+    text-align: center;
+  }
+  
+  .rating {
+    margin-top: 0.5rem;
+  }
+  
+  @media (max-width: 768px) {
+    .survey-request-container {
+      grid-template-columns: 1fr;
+    }
+  }
