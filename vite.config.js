@@ -1,17 +1,25 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import path from 'path'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import path from 'path';
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      // This helps ensure proper module resolution
-      '@': path.resolve(__dirname, './src')
-    }
+      '@': path.resolve(__dirname, './src'),
+    },
   },
-  optimizeDeps: {
-    include: ['date-fns'] // Explicitly include date-fns for pre-bundling
-  }
-})
+  build: {
+    rollupOptions: {
+      // Make sure to include date-fns and any other problematic dependencies
+      external: [],
+      // Ensure date-fns is properly bundled
+      output: {
+        manualChunks: {
+          'date-fns': ['date-fns'],
+        },
+      },
+    },
+  },
+});

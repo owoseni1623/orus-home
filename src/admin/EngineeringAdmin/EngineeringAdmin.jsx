@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { format } from 'date-fns';
 import './EngineeringAdmin.css';
 
 const EngineeringAdmin = () => {
@@ -174,7 +173,7 @@ const EngineeringAdmin = () => {
     e.stopPropagation();
   };
 
-  // Safe date formatting to prevent errors with invalid dates
+  // Custom date formatter to avoid date-fns dependency issues
   const formatDate = (dateString) => {
     try {
       const date = new Date(dateString);
@@ -182,7 +181,10 @@ const EngineeringAdmin = () => {
       if (isNaN(date.getTime())) {
         return 'Invalid date';
       }
-      return format(date, 'PPP');
+      
+      // Format date without using date-fns: May 18, 2025
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      return date.toLocaleDateString('en-US', options);
     } catch (error) {
       return 'Invalid date';
     }
@@ -211,7 +213,7 @@ const EngineeringAdmin = () => {
                   {consultation.status}
                 </span>
                 <span className="eng006-consultation-date">
-                  {format(new Date(consultation.createdAt), 'PPP')}
+                  {formatDate(consultation.createdAt)}
                 </span>
               </div>
 
@@ -413,7 +415,7 @@ const EngineeringAdmin = () => {
                       <h3>Replies</h3>
                       {selectedConsultation.replies.map((reply, index) => (
                         <div key={index} className="eng006-reply-item">
-                          <p className="eng006-reply-date">{format(new Date(reply.createdAt), 'PPP')}</p>
+                          <p className="eng006-reply-date">{formatDate(reply.createdAt)}</p>
                           <p className="eng006-reply-message">{reply.message}</p>
                           {reply.attachments && reply.attachments.length > 0 && (
                             <div className="eng006-reply-attachments">
