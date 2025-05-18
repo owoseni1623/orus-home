@@ -177,7 +177,12 @@ const EngineeringAdmin = () => {
   // Safe date formatting to prevent errors with invalid dates
   const formatDate = (dateString) => {
     try {
-      return format(new Date(dateString), 'PPP');
+      const date = new Date(dateString);
+      // Check if date is valid before formatting
+      if (isNaN(date.getTime())) {
+        return 'Invalid date';
+      }
+      return format(date, 'PPP');
     } catch (error) {
       return 'Invalid date';
     }
@@ -206,7 +211,7 @@ const EngineeringAdmin = () => {
                   {consultation.status}
                 </span>
                 <span className="eng006-consultation-date">
-                  {formatDate(consultation.createdAt)}
+                  {format(new Date(consultation.createdAt), 'PPP')}
                 </span>
               </div>
 
@@ -408,7 +413,7 @@ const EngineeringAdmin = () => {
                       <h3>Replies</h3>
                       {selectedConsultation.replies.map((reply, index) => (
                         <div key={index} className="eng006-reply-item">
-                          <p className="eng006-reply-date">{formatDate(reply.createdAt)}</p>
+                          <p className="eng006-reply-date">{format(new Date(reply.createdAt), 'PPP')}</p>
                           <p className="eng006-reply-message">{reply.message}</p>
                           {reply.attachments && reply.attachments.length > 0 && (
                             <div className="eng006-reply-attachments">
