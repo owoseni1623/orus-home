@@ -417,7 +417,45 @@ app.use('/api/v1/cofo', require('./routes/cofoRoute'));
 app.use('/api/engineering', require('./routes/engineeringRoutes'));
 app.use('/api/investment-inquiries', investmentInquiryRoutes);
 
-// Handle undefined routes
+// ------------- NEW CODE: HANDLE FRONTEND ROUTES --------------
+// This will be placed after all API routes but before the 404 handler
+
+// Serve static assets in production
+if (process.env.NODE_ENV === 'production') {
+  // Check if we have a client build directory
+  const clientBuildPath = path.resolve(__dirname, '../client/dist'); // Adjust this path if needed
+  
+  try {
+    // Check if the directory exists before trying to serve from it
+    if (require('fs').existsSync(clientBuildPath)) {
+      console.log(`Serving static files from: ${clientBuildPath}`);
+      app.use(express.static(clientBuildPath));
+      
+      // Handle SPA routing - Any route not handled above will be sent to React
+      app.get('*', (req, res) => {
+        // Skip API routes and upload routes, which were already handled above
+        if (!req.originalUrl.startsWith('/api') && 
+            !req.originalUrl.startsWith('/uploads')) {
+          res.sendFile(path.resolve(clientBuildPath, 'index.html'));
+        } else {
+          // This should not happen normally, but handle it just in case
+          res.status(404).json({
+            success: false,
+            message: `Cannot find ${req.originalUrl} on this server`
+          });
+        }
+      });
+    } else {
+      console.warn(`Client build directory not found at: ${clientBuildPath}`);
+      // If directory doesn't exist, we'll fall through to the 404 handler below
+    }
+  } catch (err) {
+    console.error('Error setting up static file serving:', err);
+  }
+}
+// ------------- END NEW CODE --------------
+
+// Handle undefined routes - this becomes the final fallback
 app.use('*', (req, res) => {
   res.status(404).json({
     success: false,
