@@ -79,9 +79,11 @@ exports.createCOFO = asyncHandler(async (req, res, next) => {
       propertyLocation,
       propertyType,
       selectedPackage,
-      additionalNotes,
-      user
+      additionalNotes
     } = req.body;
+
+    // Get user ID from authenticated request
+    const user = req.user.id;
 
     // Validate required fields
     if (!fullName || !email || !phoneNumber || !propertyLocation || !propertyType || !selectedPackage) {
@@ -93,7 +95,7 @@ exports.createCOFO = asyncHandler(async (req, res, next) => {
       name: file.originalname,
       url: `/uploads/cofo/${file.filename}`,
       uploadedAt: Date.now(),
-      uploadedBy: user // Use the user ID from the form data
+      uploadedBy: user
     })) : [];
 
     // Create COFO application
@@ -107,7 +109,7 @@ exports.createCOFO = asyncHandler(async (req, res, next) => {
       additionalNotes: additionalNotes || '',
       status: 'pending',
       currentStage: 1,
-      user, // Use the user ID from the form data
+      user, // Use the authenticated user ID
       documents
     });
 
