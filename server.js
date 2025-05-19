@@ -281,6 +281,31 @@ app.use('/uploads/lands', (req, res) => {
   }
 });
 
+// Redirect non-api block routes to the API version
+app.use('/blocks', (req, res) => {
+  // Preserve the original query parameters if any
+  const queryString = Object.keys(req.query).length > 0 
+    ? '?' + new URLSearchParams(req.query).toString() 
+    : '';
+  
+  // Redirect GET requests to the API endpoint
+  if (req.method === 'GET') {
+    if (req.path === '/' || req.path === '') {
+      return res.redirect(`/api/blocks${queryString}`);
+    } else {
+      // For individual block requests (e.g., /blocks/123)
+      return res.redirect(`/api/blocks${req.path}${queryString}`);
+    }
+  }
+  
+  // For other methods, return a more helpful error
+  res.status(404).json({
+    success: false,
+    message: 'Block requests should go to /api/blocks endpoint',
+    correctEndpoint: `/api/blocks${req.path}`
+  });
+});
+
 // Upload routes
 app.post('/api/upload/properties', protect, authorize('admin'), upload.array('images', 5), async (req, res) => {
   try {
