@@ -1,5 +1,6 @@
 const Land = require('../models/Land');
 const asyncHandler = require('express-async-handler');
+const path = require('path');
 
 // Helper function to clean price
 const cleanPrice = (price) => {
@@ -14,15 +15,15 @@ const cleanPrice = (price) => {
 exports.getLands = asyncHandler(async (req, res) => {
   const lands = await Land.find().sort('-createdAt');
   
-  // Normalize image paths to use forward slashes and absolute paths
+  // Process image paths correctly for frontend use
   const processedLands = lands.map(land => {
     const processedLand = land.toObject(); // Convert to plain object
     if (processedLand.images) {
-      processedLand.images = processedLand.images.map(imagePath => 
-        imagePath
-          .replace(/\\/g, '/') // Replace backslashes with forward slashes
-          .replace(/^uploads[/\\]/, '') // Remove 'uploads/' prefix
-      );
+      // Don't modify the actual paths, just ensure they're properly formatted
+      processedLand.images = processedLand.images.map(imagePath => {
+        // Just return the filename, the frontend will construct the full URL
+        return imagePath.replace(/\\/g, '/').split('/').pop();
+      });
     }
     return processedLand;
   });
@@ -40,12 +41,13 @@ exports.getLand = asyncHandler(async (req, res) => {
     throw new Error('Land property not found');
   }
 
-  // Normalize image paths to use forward slashes
+  // Process image paths correctly for frontend use
   const processedLand = land.toObject();
   if (processedLand.images) {
-    processedLand.images = processedLand.images.map(imagePath => 
-      imagePath.replace(/\\/g, '/')
-    );
+    processedLand.images = processedLand.images.map(imagePath => {
+      // Just return the filename, the frontend will construct the full URL
+      return imagePath.replace(/\\/g, '/').split('/').pop();
+    });
   }
   
   res.json(processedLand);
@@ -87,7 +89,10 @@ exports.createLand = asyncHandler(async (req, res) => {
       ? features.map(cleanValue).filter(f => f) 
       : [], // Remove empty values and clean
     images: Array.isArray(images) 
-      ? images.map(img => img.replace(/^["']|["']$/g, ''))
+      ? images.map(img => {
+          // Store just the filename for consistency
+          return cleanValue(img).split('/').pop();
+        })
       : [],
     isAvailable: Boolean(isAvailable)
   };
@@ -113,6 +118,14 @@ exports.updateLand = asyncHandler(async (req, res) => {
   // Clean price if it's being updated
   if (req.body.price) {
     req.body.price = cleanPrice(req.body.price);
+  }
+
+  // Process images if they're being updated
+  if (req.body.images) {
+    req.body.images = req.body.images.map(img => {
+      // Store just the filename for consistency
+      return img.replace(/^["']|["']$/g, '').split('/').pop();
+    });
   }
 
   land = await Land.findByIdAndUpdate(
@@ -163,11 +176,20 @@ exports.searchLands = asyncHandler(async (req, res) => {
   }
 
   const lands = await Land.find(query).sort('-createdAt');
-  res.json({
-    success: true,
-    count: lands.length,
-    data: lands
+  
+  // Process the images paths for the frontend
+  const processedLands = lands.map(land => {
+    const processedLand = land.toObject();
+    if (processedLand.images) {
+      processedLand.images = processedLand.images.map(imagePath => {
+        // Just return the filename for the frontend to construct the full URL
+        return imagePath.replace(/\\/g, '/').split('/').pop();
+      });
+    }
+    return processedLand;
   });
+  
+  res.json(processedLands);
 });
 
 // @desc    Fix image paths in database
@@ -178,11 +200,10 @@ exports.fixImagePaths = asyncHandler(async (req, res) => {
 
   for (let land of lands) {
     if (land.images && land.images.length > 0) {
-      const fixedImages = land.images.map(imagePath => 
-        imagePath
-          .replace(/\\/g, '/') // Replace backslashes with forward slashes
-          .replace(/^uploads[/\\]/, '') // Remove 'uploads/' prefix
-      );
+      const fixedImages = land.images.map(imagePath => {
+        // Store just the filename for consistency
+        return imagePath.replace(/\\/g, '/').split('/').pop();
+      });
 
       await Land.findByIdAndUpdate(land._id, { images: fixedImages });
       updatedCount++;

@@ -298,6 +298,52 @@ app.post('/api/upload/properties', protect, authorize('admin'), upload.array('im
   }
 });
 
+app.get('/api/uploads/lands/:filename', (req, res) => {
+  try {
+    const filename = req.params.filename;
+    // Sanitize the filename to prevent path traversal
+    const sanitizedFilename = path.basename(filename);
+    const filePath = path.join(__dirname, 'uploads', 'lands', sanitizedFilename);
+    
+    // Log detailed debug info
+    console.log('Image request details:', {
+      requestedFile: filename,
+      sanitizedFilename,
+      fullPath: filePath,
+      exists: require('fs').existsSync(filePath)
+    });
+
+    // Verify the file exists
+    if (!require('fs').existsSync(filePath)) {
+      console.error(`Image not found: ${filePath}`);
+      return res.status(404).json({
+        success: false,
+        message: 'Image not found'
+      });
+    }
+
+    // Set proper headers
+    res.set({
+      'Content-Type': 'image/jpeg', // You might need a more dynamic solution for different file types
+      'Access-Control-Allow-Origin': '*',
+      'Cross-Origin-Resource-Policy': 'cross-origin',
+      'Cache-Control': 'public, max-age=86400' // Cache for 1 day
+    });
+
+    // Send the file
+    res.sendFile(filePath);
+  } catch (err) {
+    console.error('Error serving image:', err);
+    if (!res.headersSent) {
+      res.status(500).json({
+        success: false,
+        message: 'Error serving image',
+        error: err.message
+      });
+    }
+  }
+});
+
 app.post('/api/upload/lands', protect, authorize('admin'), upload.array('images', 5), async (req, res) => {
   try {
     const urls = req.files.map(file => file.filename);
