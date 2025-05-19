@@ -78,8 +78,8 @@ exports.createCOFO = asyncHandler(async (req, res, next) => {
       phoneNumber,
       propertyLocation,
       propertyType,
-      specificPropertyType, // Add the new field
-      selectedPackage,
+      specificPropertyType,
+      selectedPackage,  // Make sure this is included
       additionalNotes
     } = req.body;
 
@@ -99,18 +99,19 @@ exports.createCOFO = asyncHandler(async (req, res, next) => {
       uploadedBy: user
     })) : [];
 
-    // Create COFO application
+    // Create COFO application - Include selectedPackage here
     const cofo = await COFO.create({
       fullName,
       email,
       phoneNumber,
       propertyLocation,
-      propertyType, // This should now be one of: 'residential', 'commercial', 'industrial'
-      specificPropertyType: specificPropertyType || propertyType, // Store the specific type
+      propertyType,
+      specificPropertyType: specificPropertyType || propertyType,
+      selectedPackage,  // Add this line
       additionalNotes: additionalNotes || '',
       status: 'pending',
       currentStage: 1,
-      user, // Use the authenticated user ID
+      user,
       documents
     });
 
