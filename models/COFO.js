@@ -26,6 +26,10 @@ const COFOSchema = new mongoose.Schema({
     required: [true, 'Please select property type'],
     enum: ['residential', 'commercial', 'industrial']
   },
+  specificPropertyType: {
+    type: String,
+    // No enum restriction to allow all specific property types from frontend
+  },
   additionalNotes: {
     type: String
   },

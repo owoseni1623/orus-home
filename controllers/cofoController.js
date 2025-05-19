@@ -78,6 +78,7 @@ exports.createCOFO = asyncHandler(async (req, res, next) => {
       phoneNumber,
       propertyLocation,
       propertyType,
+      specificPropertyType, // Add the new field
       selectedPackage,
       additionalNotes
     } = req.body;
@@ -104,8 +105,8 @@ exports.createCOFO = asyncHandler(async (req, res, next) => {
       email,
       phoneNumber,
       propertyLocation,
-      propertyType,
-      selectedPackage,
+      propertyType, // This should now be one of: 'residential', 'commercial', 'industrial'
+      specificPropertyType: specificPropertyType || propertyType, // Store the specific type
       additionalNotes: additionalNotes || '',
       status: 'pending',
       currentStage: 1,
